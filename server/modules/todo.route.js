@@ -17,7 +17,14 @@ router.get( '/', ( req, res ) => {
 
 router.post( '/', ( req, res ) => {
     console.log( 'in todo POST', req.body );
-    res.send( 'ribbet' );
+    let query = 'INSERT INTO tasks ("task") VALUES ($1)';
+    pool.query( query, [ req.body.task ]).then( ( results )=>{
+        console.log( 'added 2 db' );
+        res.sendStatus( 200 );
+    }).catch( (err)=>{
+        console.log( 'ERROR ADDING TO DB:', err );
+        res.sendStatus( 400 );
+    })
 }) // end POST
 
 router.put( '/', ( req, res ) => {

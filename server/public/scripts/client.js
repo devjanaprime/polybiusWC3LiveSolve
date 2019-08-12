@@ -13,6 +13,7 @@ function addTask(){
         data: objectToSend
     }).then( function( response ){
         console.log( 'back from POST with:', response );
+        getTasks();
     }).catch( function( err ){
         alert( 'Error posting task. See console for details' );
         console.log( err );
@@ -31,7 +32,6 @@ function getTasks(){
         el.empty();
         for( let i= 0; i < response.length; i++ ){
             let taskString = ``;
-            console.log( 'checking:', response[i].complete );
             if( response[i].complete ){
                 taskString += `<li class="completedTask">` 
             }
