@@ -27,14 +27,28 @@ router.post( '/', ( req, res ) => {
     })
 }) // end POST
 
-router.put( '/', ( req, res ) => {
-    console.log( 'in todo PUT', req.query );
-    res.send( 'woof' );
+router.put( '/:id', ( req, res ) => {
+    console.log( 'in todo PUT', req.params );
+    let query = `UPDATE "tasks" SET "complete" = true WHERE "id" = $1`;
+    pool.query( query, [ req.params.id ] ).then( (results)=>{
+        console.log( 'updated, I think... ');
+        res.sendStatus( 200 );
+    }).catch( (err)=>{
+        console.log( 'ERROR UPDATING: ', err );
+        res.sendStatus( 400 );
+    })
 }) // end PUT
 
-router.delete( '/', ( req, res ) => {
-    console.log( 'in todo DELETE', req.query );
-    res.send( 'moo' );
+router.delete( '/:id', ( req, res ) => {
+    console.log( 'in todo DELETE', req.params );
+    let query = 'DELETE FROM "tasks" WHERE "id" = $1';
+    pool.query( query, [ req.params.id ] ).then( (results)=>{
+        console.log( 'deleted...' );
+        res.sendStatus( 200 );
+    }).catch( (err)=>{
+        console.log( 'error deleting:', err );
+        res.sendStatus( 400 );
+    })
 }) // end DELETE
 
 // exports
