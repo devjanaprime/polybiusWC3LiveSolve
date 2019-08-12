@@ -8,9 +8,11 @@ router.get( '/', ( req, res ) => {
     console.log( 'in todo GET' );
     let query = 'SELECT * FROM tasks';
     pool.query( query ).then( (results)=>{
-        console.log( 'query maybe ok?!?..?~$#*$', results.rows );
-    });
-    res.send( 'meow' );
+        res.send( results.rows );
+    }).catch( (err)=>{
+        console.log( 'error reading from db:', err );
+        res.sendStatus( 400 );
+    })
 }) // end GET
 
 router.post( '/', ( req, res ) => {
